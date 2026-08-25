@@ -1,1 +1,13 @@
-file:///data/user/0/com.foxdebug.acodefree/files/public/HistoryActiviy.java
+package com.srt60;
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class HistoryActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_history);
+    }
+}
