@@ -1,1 +1,25 @@
-file:///data/user/0/com.foxdebug.acodefree/files/public/activityhistory.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#121212">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="History"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your history records will appear here."
+        android:textSize="16sp"
+        android:textColor="#AAAAAA"/>
+
+</LinearLayout>
