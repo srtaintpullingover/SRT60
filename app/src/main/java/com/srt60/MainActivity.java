@@ -1,1 +1,12 @@
-file:///data/user/0/com.foxdebug.acodefree/files/public/MainActivity.java
+package com.srt60;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
