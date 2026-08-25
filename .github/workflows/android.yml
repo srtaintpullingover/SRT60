@@ -26,6 +26,6 @@ jobs:
       
 
       - name: Build Debug APK with Gradle
-        run: gradle assembleDebug
+        run: gradle -p app assembleDebug
         
         
