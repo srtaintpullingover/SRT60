@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#00D632"
+    android:gravity="center_horizontal"
+    android:padding="24dp">
+
+    <!-- Top Navigation Icons Area -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="40dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="👤"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="$CashApp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/btnHistoryNav"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="🕒"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <!-- Amount Display -->
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$0"
+        android:textColor="#FFFFFF"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="60dp"/>
+
+    <!-- Keypad Row 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginBottom="16dp">
+        <Button android:id="@+id/btn1" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="1" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn2" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="2" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn3" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="3" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+    </LinearLayout>
+
+    <!-- Keypad Row 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginBottom="16dp">
+        <Button android:id="@+id/btn4" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="4" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn5" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="5" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn6" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="6" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+    </LinearLayout>
+
+    <!-- Keypad Row 3 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginBottom="16dp">
+        <Button android:id="@+id/btn7" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="7" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn8" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="8" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn9" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="9" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+    </LinearLayout>
+
+    <!-- Keypad Row 4 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginBottom="24dp">
+        <Button android:id="@+id/btnDot" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="." android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btn0" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="0" android:textSize="28sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+        <Button android:id="@+id/btnDelete" android:layout_width="0dp" android:layout_height="72dp" android:layout_weight="1" android:text="⌫" android:textSize="24sp" android:textColor="#FFFFFF" android:backgroundTint="#1DB954" android:layout_margin="4dp"/>
+    </LinearLayout>
+
+    <!-- Action Buttons (Pay / Request) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <Button
+            android:id="@+id/btnRequest"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="Request"
+            android:textColor="#00D632"
+            android:backgroundTint="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp"/>
+        <Button
+            android:id="@+id/btnPay"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="Pay"
+            android:textColor="#00D632"
+            android:backgroundTint="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+</LinearLayout>
