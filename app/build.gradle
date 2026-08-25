@@ -1,1 +1,17 @@
-file:///data/user/0/com.foxdebug.acodefree/files/public/build.gradle
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.srt60'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.srt60"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
