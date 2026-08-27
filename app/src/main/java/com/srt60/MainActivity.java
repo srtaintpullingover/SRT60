@@ -1,11 +1,9 @@
 package com.srt60;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,66 +16,52 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtAmount = findViewById(R.id.txtAmount);
+        txtAmount = (TextView) findViewById(R.id.txtAmount);
 
-        // Number pad
-        int[] numberIds = {
-                R.id.btn1, R.id.btn2, R.id.btn3,
-                R.id.btn4, R.id.btn5, R.id.btn6,
-                R.id.btn7, R.id.btn8, R.id.btn9,
-                R.id.btn0, R.id.btnDot, R.id.btnBack
+        int[] numButtonIds = {
+            R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+            R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btnDot
         };
 
-        View.OnClickListener numberListener = v -> {
-            String text = ((Button) v).getText().toString();
+        View.OnClickListener numListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                String val = b.getText().toString();
 
-            if (text.equals("<")) {
-                if (currentAmount.length() > 1) {
-                    currentAmount.deleteCharAt(currentAmount.length() - 1);
-                } else {
-                    currentAmount.setLength(0);
-                    currentAmount.append("0");
-                }
-            } else {
-                if (currentAmount.toString().equals("0") && !text.equals(".")) {
+                if (currentAmount.toString().equals("0") && !val.equals(".")) {
                     currentAmount.setLength(0);
                 }
-                // Prevent multiple decimals
-                if (text.equals(".") && currentAmount.toString().contains(".")) return;
-                currentAmount.append(text);
+                currentAmount.append(val);
+                if (txtAmount != null) {
+                    txtAmount.setText("$" + currentAmount.toString());
+                }
             }
-            txtAmount.setText("$" + currentAmount.toString());
         };
 
-        for (int id : numberIds) {
-            findViewById(id).setOnClickListener(numberListener);
+        for (int i = 0; i < numButtonIds.length; i++) {
+            Button btn = (Button) findViewById(numButtonIds[i]);
+            if (btn != null) {
+                btn.setOnClickListener(numListener);
+            }
         }
 
-        // Action buttons
-        findViewById(R.id.btnPay).setOnClickListener(v -> {
-            Toast.makeText(this, "Pay $" + currentAmount + " (demo)", Toast.LENGTH_SHORT).show();
-            // You can launch a confirmation screen here later
-        });
-
-        findViewById(R.id.btnPool).setOnClickListener(v ->
-                Toast.makeText(this, "Pool $" + currentAmount, Toast.LENGTH_SHORT).show());
-
-        findViewById(R.id.btnRequest).setOnClickListener(v ->
-                Toast.makeText(this, "Request $" + currentAmount, Toast.LENGTH_SHORT).show());
-
-        // Bottom nav
-        findViewById(R.id.navHome).setOnClickListener(v -> {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
-        });
-        findViewById(R.id.navKeypad).setOnClickListener(v -> { /* already here */ });
-        findViewById(R.id.navHistory).setOnClickListener(v -> {
-            startActivity(new Intent(this, HistoryActivity.class));
-            finish();
-        });
-
-        // Top profile circle → Profile
-        findViewById(R.id.btnProfile).setOnClickListener(v ->
-                startActivity(new Intent(this, ProfileActivity.class)));
+        Button btnDel = (Button) findViewById(R.id.btnDel);
+        if (btnDel != null) {
+            btnDel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentAmount.length() > 1) {
+                        currentAmount.deleteCharAt(currentAmount.length() - 1);
+                    } else {
+                        currentAmount.setLength(0);
+                        currentAmount.append("0");
+                    }
+                    if (txtAmount != null) {
+                        txtAmount.setText("$" + currentAmount.toString());
+                    }
+                }
+            });
+        }
     }
 }
