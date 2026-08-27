@@ -1,31 +1,33 @@
 package com.srt60;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // Safely load layout if available, or fallback gracefully
-        int layoutId = getResources().getIdentifier("activity_home", "layout", getPackageName());
-        if (layoutId != 0) {
-            setContentView(layoutId);
-        }
+        setContentView(R.layout.activity_home);
 
-        // Safely bind navigation views by name to avoid missing ID compilation errors
-        String[] navIds = {"homeNavHome", "homeNavKeypad", "homeNavHistory"};
-        for (int i = 0; i < navIds.length; i++) {
-            int id = getResources().getIdentifier(navIds[i], "id", getPackageName());
-            if (id != 0) {
-                View navView = findViewById(id);
-                if (navView != null) {
-                    // Optional click setup or listeners can go here
-                }
-            }
-        }
+        // Bottom nav
+        findViewById(R.id.navHome).setOnClickListener(v -> { /* already here */ });
+        findViewById(R.id.navKeypad).setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
+        findViewById(R.id.navHistory).setOnClickListener(v -> {
+            startActivity(new Intent(this, HistoryActivity.class));
+            finish();
+        });
+
+        // Profile
+        findViewById(R.id.btnProfile).setOnClickListener(v ->
+                startActivity(new Intent(this, ProfileActivity.class)));
+
+        // Cash balance row → open Balance screen
+        findViewById(R.id.rowCashBalance).setOnClickListener(v ->
+                startActivity(new Intent(this, BalanceActivity.class)));
     }
 }
