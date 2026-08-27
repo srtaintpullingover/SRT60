@@ -1,118 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#000000"
-    android:padding="20dp">
+    android:background="#000000">
 
-    <!-- Top bar -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="24dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Balance"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#222222"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
-
-    <!-- Cash Balance -->
-    <LinearLayout
-        android:id="@+id/cardCashBalance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp"
-        android:background="#151515"
-        android:clickable="true"
-        android:focusable="true">
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Balance"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cardCashBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="22dp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cash Balance"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtCashBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0.00"
+                android:textColor="#FFFFFF"
+                android:textSize="38sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnEditCash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Cash Balance"
+                android:textAllCaps="false"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <LinearLayout
+            android:id="@+id/cardSavings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="22dp"
+            android:background="#151515"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Savings"
+                android:textColor="#AAAAAA"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtSavings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0.00"
+                android:textColor="#FFFFFF"
+                android:textSize="38sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnEditSavings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit Savings"
+                android:textAllCaps="false"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cash Balance"
-            android:textColor="#AAAAAA"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/txtCashBalance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="$0.75"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnEditCash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Edit Cash Balance"
-            android:textAllCaps="false" />
+            android:text="Tap either card or its edit button to change the amount."
+            android:textColor="#888888"
+            android:textSize="13sp"
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 
-    <!-- Space -->
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="16dp" />
-
-    <!-- Savings -->
-    <LinearLayout
-        android:id="@+id/cardSavings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:background="#151515"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Savings"
-            android:textColor="#AAAAAA"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/txtSavings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="$5.00"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnEditSavings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="Edit Savings"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
