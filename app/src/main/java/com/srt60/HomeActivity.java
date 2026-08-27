@@ -1,18 +1,19 @@
 package com.srt60;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
@@ -26,409 +27,270 @@ public class HomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
-        txtBalance =
-                findViewById(R.id.txtHomeBalance);
+        txtBalance = findViewById(R.id.txtBalance);
+        transactionContainer = findViewById(R.id.transactionContainer);
 
-        transactionContainer =
-                findViewById(
-                        R.id.transactionContainer
-                );
-
-        setupNavigation();
+        setupButtons();
+        refreshHome();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        refreshHome();
+        if (txtBalance != null) {
+            refreshHome();
+        }
+    }
+
+    private void setupButtons() {
+
+        findViewById(R.id.btnProfile).setOnClickListener(v ->
+                startActivity(
+                        new Intent(HomeActivity.this,
+                                ProfileActivity.class)
+                )
+        );
+
+        findViewById(R.id.btnSearch).setOnClickListener(v ->
+                startActivity(
+                        new Intent(HomeActivity.this,
+                                SendActivity.class)
+                )
+        );
+
+        findViewById(R.id.btnAddMoney).setOnClickListener(v ->
+                editBalance()
+        );
+
+        findViewById(R.id.rowCashBalance).setOnClickListener(v ->
+                editBalance()
+        );
+
+        findViewById(R.id.btnSend).setOnClickListener(v ->
+                startActivity(
+                        new Intent(HomeActivity.this,
+                                SendActivity.class)
+                )
+        );
+
+        findViewById(R.id.btnPool).setOnClickListener(v ->
+                startActivity(
+                        new Intent(HomeActivity.this,
+                                PoolActivity.class)
+                )
+        );
+
+        findViewById(R.id.navHome).setOnClickListener(v -> {
+            // Already here.
+        });
+
+        findViewById(R.id.navKeypad).setOnClickListener(v ->
+                startActivity(
+                        new Intent(HomeActivity.this,
+                                MainActivity.class)
+                )
+        );
+
+        findViewById(R.id.navHistory).setOnClickListener(v ->
+                startActivity(
+                        new Intent(HomeActivity.this,
+                                HistoryActivity.class)
+                )
+        );
     }
 
     private void refreshHome() {
 
-        long balance =
-                TransactionStore
-                        .getCashBalance(this);
+        double balance = AppData.getBalance(this);
 
-        if (txtBalance != null) {
-            txtBalance.setText(
-                    TransactionStore.money(balance)
-            );
-        }
-
-        renderTransactions();
-    }
-
-    private void renderTransactions() {
-
-        if (transactionContainer == null) {
-            return;
-        }
+        txtBalance.setText(
+                AppData.formatMoney(balance)
+        );
 
         transactionContainer.removeAllViews();
 
-        List<TransactionStore.Transaction>
-                transactions =
-                TransactionStore
-                        .getTransactions(this);
+        ArrayList<AppData.Transaction> transactions =
+                AppData.getTransactions(this);
 
         if (transactions.isEmpty()) {
 
-            TextView empty =
-                    new TextView(this);
+            TextView empty = new TextView(this);
 
-            empty.setText(
-                    "No transactions yet"
-            );
-
-            empty.setTextColor(
-                    Color.GRAY
-            );
-
+            empty.setText("No transactions yet");
+            empty.setTextColor(0xFF888888);
             empty.setTextSize(16);
+            empty.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            empty.setPadding(0, 60, 0, 60);
 
-            empty.setGravity(
-                    Gravity.CENTER
-            );
-
-            empty.setPadding(
-                    0,
-                    dp(40),
-                    0,
-                    dp(40)
-            );
-
-            transactionContainer.addView(
-                    empty
-            );
+            transactionContainer.addView(empty);
 
             return;
         }
 
-        int count = 0;
+        for (int i = transactions.size() - 1; i >= 0; i--) {
 
-        for (
-                TransactionStore.Transaction transaction
-                : transactions
-        ) {
+            AppData.Transaction transaction =
+                    transactions.get(i);
 
-            if (count >= 20) {
-                break;
-            }
-
-            transactionContainer.addView(
-                    createTransactionRow(
-                            transaction
-                    )
-            );
-
-            count++;
+            addTransactionRow(transaction);
         }
     }
 
-    private View createTransactionRow(
-            TransactionStore.Transaction transaction
+    private void addTransactionRow(
+            AppData.Transaction transaction
     ) {
 
-        LinearLayout row =
-                new LinearLayout(this);
-
-        row.setOrientation(
-                LinearLayout.HORIZONTAL
-        );
-
-        row.setGravity(
-                Gravity.CENTER_VERTICAL
-        );
-
-        row.setPadding(
-                0,
-                dp(12),
-                0,
-                dp(12)
-        );
-
-        TextView avatar =
-                new TextView(this);
-
-        avatar.setGravity(
-                Gravity.CENTER
-        );
-
-        avatar.setTextSize(18);
-
-        avatar.setTextColor(
-                Color.WHITE
-        );
-
-        avatar.setTypeface(
-                null,
-                android.graphics.Typeface.BOLD
-        );
-
-        String person =
-                transaction.person;
-
-        String letter =
-                person.isEmpty()
-                        ? "$"
-                        : person.substring(
-                                0,
-                                1
-                        ).toUpperCase();
-
-        avatar.setText(letter);
-
-        android.graphics.drawable.GradientDrawable
-                avatarBackground =
-                new android.graphics.drawable
-                        .GradientDrawable();
-
-        avatarBackground.setColor(
-                Color.rgb(45, 45, 45)
-        );
-
-        avatarBackground.setShape(
-                android.graphics.drawable
-                        .GradientDrawable.OVAL
-        );
-
-        avatar.setBackground(
-                avatarBackground
-        );
-
-        LinearLayout.LayoutParams
-                avatarParams =
-                new LinearLayout.LayoutParams(
-                        dp(50),
-                        dp(50)
+        View row = LayoutInflater.from(this)
+                .inflate(
+                        R.layout.item_transaction,
+                        transactionContainer,
+                        false
                 );
 
-        row.addView(
-                avatar,
-                avatarParams
+        TextView avatar = row.findViewById(R.id.txtAvatar);
+        TextView name = row.findViewById(R.id.txtName);
+        TextView detail = row.findViewById(R.id.txtDetail);
+        TextView amount = row.findViewById(R.id.txtAmount);
+
+        String initials = getInitials(transaction.person);
+
+        avatar.setText(initials);
+
+        name.setText(transaction.person);
+
+        String type = transaction.type == null
+                ? "Payment"
+                : transaction.type;
+
+        detail.setText(
+                type + " • " +
+                        AppData.formatDate(transaction.timestamp)
         );
 
-        LinearLayout details =
-                new LinearLayout(this);
+        boolean outgoing =
+                "PAY".equalsIgnoreCase(transaction.type)
+                        || "POOL".equalsIgnoreCase(transaction.type);
 
-        details.setOrientation(
-                LinearLayout.VERTICAL
+        if (outgoing) {
+            amount.setText(
+                    "-" + AppData.formatMoney(transaction.amount)
+            );
+            amount.setTextColor(0xFFFFFFFF);
+        } else {
+            amount.setText(
+                    "+" + AppData.formatMoney(transaction.amount)
+            );
+            amount.setTextColor(0xFF00D632);
+        }
+
+        row.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    HomeActivity.this,
+                    TransactionDetailActivity.class
+            );
+
+            intent.putExtra(
+                    "TRANSACTION_ID",
+                    transaction.id
+            );
+
+            startActivity(intent);
+        });
+
+        transactionContainer.addView(row);
+    }
+
+    private String getInitials(String name) {
+
+        if (name == null || name.trim().isEmpty()) {
+            return "?";
+        }
+
+        String[] pieces = name.trim().split("\\s+");
+
+        if (pieces.length == 1) {
+            return pieces[0].substring(0, 1)
+                    .toUpperCase(Locale.US);
+        }
+
+        return (
+                pieces[0].substring(0, 1) +
+                pieces[pieces.length - 1]
+                        .substring(0, 1)
+        ).toUpperCase(Locale.US);
+    }
+
+    private void editBalance() {
+
+        EditText input = new EditText(this);
+
+        input.setInputType(
+                InputType.TYPE_CLASS_NUMBER |
+                        InputType.TYPE_NUMBER_FLAG_DECIMAL
         );
 
-        LinearLayout.LayoutParams
-                detailsParams =
-                new LinearLayout.LayoutParams(
-                        0,
-                        -2,
-                        1
-                );
+        input.setSingleLine(true);
 
-        detailsParams.leftMargin =
-                dp(14);
-
-        TextView title =
-                new TextView(this);
-
-        title.setText(
-                getTransactionTitle(
-                        transaction
+        input.setText(
+                String.format(
+                        Locale.US,
+                        "%.2f",
+                        AppData.getBalance(this)
                 )
         );
 
-        title.setTextColor(
-                Color.WHITE
-        );
+        input.selectAll();
 
-        title.setTextSize(16);
+        new AlertDialog.Builder(this)
+                .setTitle("Edit Cash Balance")
+                .setMessage(
+                        "Set the demo balance shown on Home."
+                )
+                .setView(input)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton(
+                        "Save",
+                        (dialog, which) -> {
 
-        title.setTypeface(
-                null,
-                android.graphics.Typeface.BOLD
-        );
+                            String value =
+                                    input.getText()
+                                            .toString()
+                                            .trim();
 
-        details.addView(title);
+                            try {
 
-        TextView subtitle =
-                new TextView(this);
+                                double balance =
+                                        Double.parseDouble(value);
 
-        String note =
-                transaction.note;
+                                if (balance < 0) {
+                                    throw new NumberFormatException();
+                                }
 
-        String date =
-                new SimpleDateFormat(
-                        "MMM d • h:mm a",
-                        Locale.US
-                ).format(
-                        new Date(
-                                transaction.timestamp
-                        )
-                );
+                                AppData.setBalance(
+                                        this,
+                                        balance
+                                );
 
-        if (note.isEmpty()) {
-            subtitle.setText(date);
-        } else {
-            subtitle.setText(
-                    note + "\n" + date
-            );
-        }
+                                refreshHome();
 
-        subtitle.setTextColor(
-                Color.rgb(165, 165, 165)
-        );
+                                Toast.makeText(
+                                        this,
+                                        "Balance updated",
+                                        Toast.LENGTH_SHORT
+                                ).show();
 
-        subtitle.setTextSize(13);
+                            } catch (Exception e) {
 
-        details.addView(subtitle);
-
-        row.addView(
-                details,
-                detailsParams
-        );
-
-        TextView amount =
-                new TextView(this);
-
-        boolean outgoing =
-                transaction.type.equals("PAY");
-
-        amount.setText(
-                (outgoing ? "-" : "+")
-                        +
-                        TransactionStore.money(
-                                transaction.amountCents
-                        )
-        );
-
-        amount.setTextColor(
-                outgoing
-                        ? Color.WHITE
-                        : Color.rgb(
-                                0,
-                                214,
-                                50
-                        )
-        );
-
-        amount.setTextSize(16);
-
-        amount.setTypeface(
-                null,
-                android.graphics.Typeface.BOLD
-        );
-
-        row.addView(amount);
-
-        return row;
+                                Toast.makeText(
+                                        this,
+                                        "Enter a valid amount",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        }
+                )
+                .show();
     }
-
-    private String getTransactionTitle(
-            TransactionStore.Transaction transaction
-    ) {
-
-        if (transaction.type.equals("PAY")) {
-            return transaction.person;
-        }
-
-        if (transaction.type.equals("REQUEST")) {
-            return "Request from "
-                    + transaction.person;
-        }
-
-        if (transaction.type.equals("POOL")) {
-            return transaction.person;
-        }
-
-        return transaction.person;
     }
-
-    private void setupNavigation() {
-
-        View home =
-                findViewById(R.id.navHome);
-
-        View keypad =
-                findViewById(R.id.navKeypad);
-
-        View history =
-                findViewById(R.id.navHistory);
-
-        View profile =
-                findViewById(R.id.btnProfile);
-
-        View balance =
-                findViewById(R.id.rowCashBalance);
-
-        if (home != null) {
-            home.setOnClickListener(
-                    v -> {
-                        // Already home.
-                    }
-            );
-        }
-
-        if (keypad != null) {
-
-            keypad.setOnClickListener(v -> {
-
-                startActivity(
-                        new Intent(
-                                this,
-                                MainActivity.class
-                        )
-                );
-
-                finish();
-            });
-        }
-
-        if (history != null) {
-
-            history.setOnClickListener(v -> {
-
-                startActivity(
-                        new Intent(
-                                this,
-                                HistoryActivity.class
-                        )
-                );
-
-                finish();
-            });
-        }
-
-        if (profile != null) {
-
-            profile.setOnClickListener(v ->
-                    startActivity(
-                            new Intent(
-                                    this,
-                                    ProfileActivity.class
-                            )
-                    )
-            );
-        }
-
-        if (balance != null) {
-
-            balance.setOnClickListener(v ->
-                    startActivity(
-                            new Intent(
-                                    this,
-                                    BalanceActivity.class
-                            )
-                    )
-            );
-        }
-    }
-
-    private int dp(int value) {
-
-        return Math.round(
-                value *
-                        getResources()
-                                .getDisplayMetrics()
-                                .density
-        );
-    }
-        }
