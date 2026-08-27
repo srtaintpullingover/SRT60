@@ -7,6 +7,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SRT60">
 
+        <!-- Splash Screen (Launcher) -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -17,6 +18,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Main screens -->
         <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".HomeActivity" android:exported="false" />
         <activity android:name=".BalanceActivity" android:exported="false" />
@@ -24,4 +26,5 @@
         <activity android:name=".HistoryActivity" android:exported="false" />
 
     </application>
+
 </manifest>
