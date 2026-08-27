@@ -1,4 +1,4 @@
-package com.example.srt60;
+package com.srt60;
 
 import android.content.Intent;
 import android.os.Bundle;
