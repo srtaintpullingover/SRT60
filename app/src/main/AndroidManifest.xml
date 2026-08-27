@@ -8,18 +8,20 @@
         android:theme="@style/Theme.SRT60">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.SRT60">
+            android:theme="@style/Theme.SRT60.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".HistoryActivity" android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".HomeActivity" android:exported="false" />
-        <!-- Add BalanceActivity and ProfileActivity later -->
+        <activity android:name=".BalanceActivity" android:exported="false" />
+        <activity android:name=".ProfileActivity" android:exported="false" />
+        <activity android:name=".HistoryActivity" android:exported="false" />
 
     </application>
 </manifest>
