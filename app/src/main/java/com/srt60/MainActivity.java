@@ -3,9 +3,9 @@ package com.srt60;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,84 +18,66 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtAmount = findTextViewRecursive(getWindow().getDecorView());
+        txtAmount = findViewById(R.id.txtAmount);
 
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String buttonText = "";
-                if (v instanceof Button) {
-                    buttonText = ((Button) v).getText().toString();
-                } else if (v instanceof TextView) {
-                    buttonText = ((TextView) v).getText().toString();
-                }
-
-                // Handle Bottom Action Buttons (PAY, POOL, REQUEST)
-                if (buttonText.equalsIgnoreCase("PAY") || 
-                    buttonText.equalsIgnoreCase("POOL") || 
-                    buttonText.equalsIgnoreCase("REQUEST")) {
-                    
-                    // Launch History or Balance screen when action buttons are pressed
-                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-                    intent.putExtra("ACTION_TYPE", buttonText);
-                    intent.putExtra("AMOUNT", currentAmount.toString());
-                    startActivity(intent);
-                    return;
-                }
-
-                // Handle Keypad Input
-                if (buttonText.equals("<") || buttonText.equals("DEL")) {
-                    if (currentAmount.length() > 1) {
-                        currentAmount.deleteCharAt(currentAmount.length() - 1);
-                    } else {
-                        currentAmount.setLength(0);
-                        currentAmount.append("0");
-                    }
-                } else if (!buttonText.isEmpty() && (Character.isDigit(buttonText.charAt(0)) || buttonText.equals("."))) {
-                    if (currentAmount.toString().equals("0") && !buttonText.equals(".")) {
-                        currentAmount.setLength(0);
-                    }
-                    currentAmount.append(buttonText);
-                }
-
-                if (txtAmount != null) {
-                    txtAmount.setText("$" + currentAmount.toString());
-                }
-            }
+        // Number pad
+        int[] numberIds = {
+                R.id.btn1, R.id.btn2, R.id.btn3,
+                R.id.btn4, R.id.btn5, R.id.btn6,
+                R.id.btn7, R.id.btn8, R.id.btn9,
+                R.id.btn0, R.id.btnDot, R.id.btnBack
         };
 
-        // Recursively attach listeners to all interactive elements, including top bar icons and bottom buttons
-        attachListenersRecursive(getWindow().getDecorView(), clickListener);
-    }
+        View.OnClickListener numberListener = v -> {
+            String text = ((Button) v).getText().toString();
 
-    private TextView findTextViewRecursive(View view) {
-        if (view instanceof TextView && !(view instanceof Button)) {
-            String text = ((TextView) view).getText().toString();
-            if (text.contains("$") || text.equals("0")) {
-                return (TextView) view;
+            if (text.equals("<")) {
+                if (currentAmount.length() > 1) {
+                    currentAmount.deleteCharAt(currentAmount.length() - 1);
+                } else {
+                    currentAmount.setLength(0);
+                    currentAmount.append("0");
+                }
+            } else {
+                if (currentAmount.toString().equals("0") && !text.equals(".")) {
+                    currentAmount.setLength(0);
+                }
+                // Prevent multiple decimals
+                if (text.equals(".") && currentAmount.toString().contains(".")) return;
+                currentAmount.append(text);
             }
-        }
-        if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) view;
-            for (int i = 0; i < group.getChildCount(); i++) {
-                TextView found = findTextViewRecursive(group.getChildAt(i));
-                if (found != null) return found;
-            }
-        }
-        return null;
-    }
+            txtAmount.setText("$" + currentAmount.toString());
+        };
 
-    private void attachListenersRecursive(View view, View.OnClickListener listener) {
-        if (view instanceof Button || view.hasOnClickListeners() || view.getTag() != null || view.getId() != View.NO_ID) {
-            // Make any clickable or layout-identified element responsive
-            view.setOnClickListener(listener);
+        for (int id : numberIds) {
+            findViewById(id).setOnClickListener(numberListener);
         }
-        
-        if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) view;
-            for (int i = 0; i < group.getChildCount(); i++) {
-                attachListenersRecursive(group.getChildAt(i), listener);
-            }
-        }
+
+        // Action buttons
+        findViewById(R.id.btnPay).setOnClickListener(v -> {
+            Toast.makeText(this, "Pay $" + currentAmount + " (demo)", Toast.LENGTH_SHORT).show();
+            // You can launch a confirmation screen here later
+        });
+
+        findViewById(R.id.btnPool).setOnClickListener(v ->
+                Toast.makeText(this, "Pool $" + currentAmount, Toast.LENGTH_SHORT).show());
+
+        findViewById(R.id.btnRequest).setOnClickListener(v ->
+                Toast.makeText(this, "Request $" + currentAmount, Toast.LENGTH_SHORT).show());
+
+        // Bottom nav
+        findViewById(R.id.navHome).setOnClickListener(v -> {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        });
+        findViewById(R.id.navKeypad).setOnClickListener(v -> { /* already here */ });
+        findViewById(R.id.navHistory).setOnClickListener(v -> {
+            startActivity(new Intent(this, HistoryActivity.class));
+            finish();
+        });
+
+        // Top profile circle → Profile
+        findViewById(R.id.btnProfile).setOnClickListener(v ->
+                startActivity(new Intent(this, ProfileActivity.class)));
     }
 }
