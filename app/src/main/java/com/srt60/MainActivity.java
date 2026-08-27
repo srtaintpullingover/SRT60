@@ -1,5 +1,6 @@
 package com.srt60;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Find the amount display text view dynamically or fallback to any TextView
+        // Find the amount display text view dynamically
         txtAmount = findTextViewRecursive(getWindow().getDecorView());
 
-        // Create a universal listener for all keypad buttons
+        // Universal listener for keypad and action buttons
         View.OnClickListener keypadListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
                     Button b = (Button) v;
                     String val = b.getText().toString();
 
-                    // Skip action buttons like PAY, POOL, REQUEST
                     if (val.equalsIgnoreCase("PAY") || val.equalsIgnoreCase("POOL") || val.equalsIgnoreCase("REQUEST")) {
+                        // Handle action buttons here if needed
                         return;
                     }
 
@@ -54,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        // Automatically find and attach the listener to every button in the layout hierarchy
         setupButtonListenersRecursive(getWindow().getDecorView(), keypadListener);
+
+        // Handle top navigation icons/buttons if present
+        setupNavigationIcons();
     }
 
     private TextView findTextViewRecursive(View view) {
@@ -82,6 +85,36 @@ public class MainActivity extends AppCompatActivity {
             ViewGroup group = (ViewGroup) view;
             for (int i = 0; i < group.getChildCount(); i++) {
                 setupButtonListenersRecursive(group.getChildAt(i), listener);
+            }
+        }
+    }
+
+    private void setupNavigationIcons() {
+        // Automatically hook up top navigation elements to switch views or check balance/history
+        int[] possibleNavIds = {
+            getResources().getIdentifier("navHome", "id", getPackageName()),
+            getResources().getIdentifier("navHistory", "id", getPackageName()),
+            getResources().getIdentifier("histNavHome", "id", getPackageName()),
+            getResources().getIdentifier("homeNavHome", "id", getPackageName())
+        };
+
+        for (int id : possibleNavIds) {
+            if (id != 0) {
+                View navView = findViewById(id);
+                if (navView != null) {
+                    navView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Open History or Home Activity when top nav icons are tapped
+                            try {
+                                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                // Fallback if activity isn't registered yet
+                            }
+                        }
+                    });
+                }
             }
         }
     }
