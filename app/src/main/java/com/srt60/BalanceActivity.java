@@ -1,74 +1,217 @@
 package com.srt60;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BalanceActivity extends AppCompatActivity {
 
-    private TextView txtCashBalance, txtSavings;
-    private SharedPreferences prefs;
+    private TextView txtCashBalance;
+    private TextView txtSavings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_balance);
 
-        prefs = getSharedPreferences("CashAppClone", MODE_PRIVATE);
+        txtCashBalance =
+                findViewById(R.id.txtCashBalance);
 
-        txtCashBalance = findViewById(R.id.txtCashBalance);
-        txtSavings = findViewById(R.id.txtSavings);
+        txtSavings =
+                findViewById(R.id.txtSavings);
 
-        // Load saved values
-        String cash = prefs.getString("cash_balance", "0.75");
-        String savings = prefs.getString("savings", "5.00");
-        txtCashBalance.setText("$" + cash);
-        txtSavings.setText("$" + savings);
+        refresh();
 
-        // Make Cash Balance editable
-        findViewById(R.id.cardCashBalance).setOnClickListener(v -> editAmount("cash_balance", "Edit Cash Balance", txtCashBalance));
-        findViewById(R.id.btnEditCash).setOnClickListener(v -> editAmount("cash_balance", "Edit Cash Balance", txtCashBalance));
+        findViewById(R.id.cardCashBalance)
+                .setOnClickListener(
+                        v -> editCashBalance()
+                );
 
-        // Make Savings editable
-        findViewById(R.id.cardSavings).setOnClickListener(v -> editAmount("savings", "Edit Savings", txtSavings));
-        findViewById(R.id.btnEditSavings).setOnClickListener(v -> editAmount("savings", "Edit Savings", txtSavings));
+        findViewById(R.id.btnEditCash)
+                .setOnClickListener(
+                        v -> editCashBalance()
+                );
 
-        // Profile button
-        findViewById(R.id.btnProfile).setOnClickListener(v ->
-                startActivity(new Intent(this, ProfileActivity.class)));
+        findViewById(R.id.cardSavings)
+                .setOnClickListener(
+                        v -> editSavings()
+                );
+
+        findViewById(R.id.btnEditSavings)
+                .setOnClickListener(
+                        v -> editSavings()
+                );
+
+        findViewById(R.id.btnProfile)
+                .setOnClickListener(
+                        v -> startActivity(
+                                new Intent(
+                                        this,
+                                        ProfileActivity.class
+                                )
+                        )
+                );
     }
 
-    private void editAmount(String key, String title, TextView target) {
-        EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        input.setText(target.getText().toString().replace("$", ""));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    private void refresh() {
+
+        txtCashBalance.setText(
+                TransactionStore.money(
+                        TransactionStore
+                                .getCashBalance(this)
+                )
+        );
+
+        txtSavings.setText(
+                TransactionStore.money(
+                        TransactionStore
+                                .getSavings(this)
+                )
+        );
+    }
+
+    private void editCashBalance() {
+
+        showAmountEditor(
+                "Edit Cash Balance",
+                TransactionStore.getCashBalance(this),
+                cents -> {
+
+                    TransactionStore
+                            .setCashBalance(
+                                    this,
+                                    cents
+                            );
+
+                    refresh();
+
+                    Toast.makeText(
+                            this,
+                            "Cash balance updated",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+        );
+    }
+
+    private void editSavings() {
+
+        showAmountEditor(
+                "Edit Savings",
+                TransactionStore.getSavings(this),
+                cents -> {
+
+                    TransactionStore
+                            .setSavings(
+                                    this,
+                                    cents
+                            );
+
+                    refresh();
+
+                    Toast.makeText(
+                            this,
+                            "Savings updated",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                }
+        );
+    }
+
+    private interface AmountCallback {
+        void onSaved(long cents);
+    }
+
+    private void showAmountEditor(
+            String title,
+            long currentCents,
+            AmountCallback callback
+    ) {
+
+        EditText input =
+                new EditText(this);
+
+        input.setInputType(
+                InputType.TYPE_CLASS_NUMBER |
+                        InputType.TYPE_NUMBER_FLAG_DECIMAL
+        );
+
+        input.setText(
+                String.format(
+                        java.util.Locale.US,
+                        "%.2f",
+                        currentCents / 100.0
+                )
+        );
+
         input.setSelectAllOnFocus(true);
-        input.setPadding(50, 30, 50, 30);
+
+        input.setPadding(
+                40,
+                20,
+                40,
+                20
+        );
 
         new AlertDialog.Builder(this)
                 .setTitle(title)
-                .setMessage("Enter new amount")
+                .setMessage(
+                        "Enter the new amount"
+                )
                 .setView(input)
-                .setPositiveButton("Save", (dialog, which) -> {
-                    String value = input.getText().toString().trim();
-                    if (value.isEmpty()) value = "0.00";
-                    try {
-                        double d = Double.parseDouble(value);
-                        value = String.format("%.2f", d);
-                    } catch (Exception e) {
-                        value = "0.00";
-                    }
-                    prefs.edit().putString(key, value).apply();
-                    target.setText("$" + value);
-                    Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(
+                        "Cancel",
+                        null
+                )
+                .setPositiveButton(
+                        "Save",
+                        (dialog, which) -> {
+
+                            try {
+
+                                double amount =
+                                        Double.parseDouble(
+                                                input.getText()
+                                                        .toString()
+                                                        .trim()
+                                        );
+
+                                if (amount < 0) {
+                                    throw new Exception();
+                                }
+
+                                long cents =
+                                        Math.round(
+                                                amount * 100
+                                        );
+
+                                callback.onSaved(
+                                        cents
+                                );
+
+                            } catch (Exception e) {
+
+                                Toast.makeText(
+                                        this,
+                                        "Enter a valid amount.",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        }
+                )
                 .show();
     }
 }
