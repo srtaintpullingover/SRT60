@@ -2,32 +2,62 @@ package com.srt60;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
 
-        // Bottom nav
-        findViewById(R.id.navHome).setOnClickListener(v -> { /* already here */ });
-        findViewById(R.id.navKeypad).setOnClickListener(v -> {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        });
-        findViewById(R.id.navHistory).setOnClickListener(v -> {
-            startActivity(new Intent(this, HistoryActivity.class));
-            finish();
-        });
+        // Home
+        View navHome = findViewById(R.id.navHome);
+        if (navHome != null) {
+            navHome.setOnClickListener(v -> {
+                // Already on Home.
+            });
+        }
+
+        // Keypad
+        View navKeypad = findViewById(R.id.navKeypad);
+        if (navKeypad != null) {
+            navKeypad.setOnClickListener(v -> {
+                Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
+
+        // History
+        View navHistory = findViewById(R.id.navHistory);
+        if (navHistory != null) {
+            navHistory.setOnClickListener(v -> {
+                Intent intent = new Intent(HomeActivity.this, HistoryActivity.class);
+                startActivity(intent);
+                finish();
+            });
+        }
 
         // Profile
-        findViewById(R.id.btnProfile).setOnClickListener(v ->
-                startActivity(new Intent(this, ProfileActivity.class)));
+        View btnProfile = findViewById(R.id.btnProfile);
+        if (btnProfile != null) {
+            btnProfile.setOnClickListener(v -> {
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            });
+        }
 
-        // Cash balance row → open Balance screen
-        findViewById(R.id.rowCashBalance).setOnClickListener(v ->
-                startActivity(new Intent(this, BalanceActivity.class)));
+        // Cash balance
+        View rowCashBalance = findViewById(R.id.rowCashBalance);
+        if (rowCashBalance != null) {
+            rowCashBalance.setOnClickListener(v -> {
+                Intent intent = new Intent(HomeActivity.this, BalanceActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 }
