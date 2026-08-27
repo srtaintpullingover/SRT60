@@ -2,6 +2,7 @@ package com.srt60;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,24 +17,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Safe initialization with fallback if XML IDs differ
-        int resId =getResources().getIdentifier("txtAmount", "id", getPackageName());
-        if (resId != 0) {
-            txtAmount = (TextView) findViewById(resId);
-        }
+        // Find the amount display text view dynamically or fallback to any TextView
+        txtAmount = findTextViewRecursive(getWindow().getDecorView());
 
-        // Setup generic click listener for keypad buttons safely by name
-        View.OnClickListener numListener = new View.OnClickListener() {
+        // Create a universal listener for all keypad buttons
+        View.OnClickListener keypadListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v instanceof Button) {
                     Button b = (Button) v;
                     String val = b.getText().toString();
 
-                    if (currentAmount.toString().equals("0") && !val.equals(".")) {
-                        currentAmount.setLength(0);
+                    // Skip action buttons like PAY, POOL, REQUEST
+                    if (val.equalsIgnoreCase("PAY") || val.equalsIgnoreCase("POOL") || val.equalsIgnoreCase("REQUEST")) {
+                        return;
                     }
-                    currentAmount.append(val);
+
+                    if (val.equals("<") || val.equals("DEL")) {
+                        if (currentAmount.length() > 1) {
+                            currentAmount.deleteCharAt(currentAmount.length() - 1);
+                        } else {
+                            currentAmount.setLength(0);
+                            currentAmount.append("0");
+                        }
+                    } else {
+                        if (currentAmount.toString().equals("0") && !val.equals(".")) {
+                            currentAmount.setLength(0);
+                        }
+                        currentAmount.append(val);
+                    }
+
                     if (txtAmount != null) {
                         txtAmount.setText("$" + currentAmount.toString());
                     }
@@ -41,37 +54,34 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        // Bind numbers 0-9 and dot dynamically without hardcoding missing R.id references
-        String[] btnNames = {"btn0", "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9", "btnDot"};
-        for (int i = 0; i < btnNames.length; i++) {
-            int id = getResources().getIdentifier(btnNames[i], "id", getPackageName());
-            if (id != 0) {
-                View btn = findViewById(id);
-                if (btn != null) {
-                    btn.setOnClickListener(numListener);
-                }
+        // Automatically find and attach the listener to every button in the layout hierarchy
+        setupButtonListenersRecursive(getWindow().getDecorView(), keypadListener);
+    }
+
+    private TextView findTextViewRecursive(View view) {
+        if (view instanceof TextView) {
+            String text = ((TextView) view).getText().toString();
+            if (text.contains("$") || text.equals("0")) {
+                return (TextView) view;
             }
         }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                TextView found = findTextViewRecursive(group.getChildAt(i));
+                if (found != null) return found;
+            }
+        }
+        return null;
+    }
 
-        // Safe delete button bind
-        int delId = getResources().getIdentifier("btnDel", "id", getPackageName());
-        if (delId != 0) {
-            View btnDel = findViewById(delId);
-            if (btnDel != null) {
-                btnDel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (currentAmount.length() > 1) {
-                            currentAmount.deleteCharAt(currentAmount.length() - 1);
-                        } else {
-                            currentAmount.setLength(0);
-                            currentAmount.append("0");
-                        }
-                        if (txtAmount != null) {
-                            txtAmount.setText("$" + currentAmount.toString());
-                        }
-                    }
-                });
+    private void setupButtonListenersRecursive(View view, View.OnClickListener listener) {
+        if (view instanceof Button) {
+            view.setOnClickListener(listener);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                setupButtonListenersRecursive(group.getChildAt(i), listener);
             }
         }
     }
