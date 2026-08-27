@@ -1,7 +1,9 @@
 package com.srt60;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,52 +18,79 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtAmount = (TextView) findViewById(R.id.txtAmount);
+        txtAmount = findTextViewRecursive(getWindow().getDecorView());
 
-        int[] numButtonIds = {
-            R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
-            R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btnDot
-        };
-
-        View.OnClickListener numListener = new View.OnClickListener() {
+        View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Button b = (Button) v;
-                String val = b.getText().toString();
-
-                if (currentAmount.toString().equals("0") && !val.equals(".")) {
-                    currentAmount.setLength(0);
+                String buttonText = "";
+                if (v instanceof Button) {
+                    buttonText = ((Button) v).getText().toString();
+                } else if (v instanceof TextView) {
+                    buttonText = ((TextView) v).getText().toString();
                 }
-                currentAmount.append(val);
-                if (txtAmount != null) {
-                    txtAmount.setText("$" + currentAmount.toString());
+
+                if (buttonText.equalsIgnoreCase("PAY") || 
+                    buttonText.equalsIgnoreCase("POOL") || 
+                    buttonText.equalsIgnoreCase("REQUEST")) {
+                    
+                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                    intent.putExtra("ACTION_TYPE", buttonText);
+                    intent.putExtra("AMOUNT", currentAmount.toString());
+                    startActivity(intent);
+                    return;
                 }
-            }
-        };
 
-        for (int i = 0; i < numButtonIds.length; i++) {
-            Button btn = (Button) findViewById(numButtonIds[i]);
-            if (btn != null) {
-                btn.setOnClickListener(numListener);
-            }
-        }
-
-        Button btnDel = (Button) findViewById(R.id.btnDel);
-        if (btnDel != null) {
-            btnDel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                if (buttonText.equals("<") || buttonText.equals("DEL") || buttonText.equalsIgnoreCase("Back")) {
                     if (currentAmount.length() > 1) {
                         currentAmount.deleteCharAt(currentAmount.length() - 1);
                     } else {
                         currentAmount.setLength(0);
                         currentAmount.append("0");
                     }
-                    if (txtAmount != null) {
-                        txtAmount.setText("$" + currentAmount.toString());
+                } else if (!buttonText.isEmpty() && (Character.isDigit(buttonText.charAt(0)) || buttonText.equals("."))) {
+                    if (currentAmount.toString().equals("0") && !buttonText.equals(".")) {
+                        currentAmount.setLength(0);
                     }
+                    currentAmount.append(buttonText);
                 }
-            });
+
+                if (txtAmount != null) {
+                    txtAmount.setText("$" + currentAmount.toString());
+                }
+            }
+        };
+
+        attachListenersRecursive(getWindow().getDecorView(), clickListener);
+    }
+
+    private TextView findTextViewRecursive(View view) {
+        if (view instanceof TextView && !(view instanceof Button)) {
+            String text = ((TextView) view).getText().toString();
+            if (text.contains("$") || text.equals("0")) {
+                return (TextView) view;
+            }
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                TextView found = findTextViewRecursive(group.getChildAt(i));
+                if (found != null) return found;
+            }
+        }
+        return null;
+    }
+
+    private void attachListenersRecursive(View view, View.OnClickListener listener) {
+        if (view instanceof Button || view instanceof TextView) {
+            view.setOnClickListener(listener);
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                attachListenersRecursive(group.getChildAt(i), listener);
+            }
         }
     }
 }
+
