@@ -25,7 +25,7 @@ public class BalanceActivity extends AppCompatActivity {
         txtCashBalance = findViewById(R.id.txtCashBalance);
         txtSavings = findViewById(R.id.txtSavings);
 
-        // Load saved values (default to the ones in your screenshot)
+        // Load saved values
         String cash = prefs.getString("cash_balance", "0.75");
         String savings = prefs.getString("savings", "5.00");
         txtCashBalance.setText("$" + cash);
@@ -38,20 +38,6 @@ public class BalanceActivity extends AppCompatActivity {
         // Make Savings editable
         findViewById(R.id.cardSavings).setOnClickListener(v -> editAmount("savings", "Edit Savings", txtSavings));
         findViewById(R.id.btnEditSavings).setOnClickListener(v -> editAmount("savings", "Edit Savings", txtSavings));
-
-        // Bottom navigation
-        findViewById(R.id.navHome).setOnClickListener(v -> {
-            startActivity(new Intent(this, HomeActivity.class));
-            finish();
-        });
-        findViewById(R.id.navKeypad).setOnClickListener(v -> {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        });
-        findViewById(R.id.navHistory).setOnClickListener(v -> {
-            startActivity(new Intent(this, HistoryActivity.class));
-            finish();
-        });
 
         // Profile button
         findViewById(R.id.btnProfile).setOnClickListener(v ->
@@ -72,7 +58,6 @@ public class BalanceActivity extends AppCompatActivity {
                 .setPositiveButton("Save", (dialog, which) -> {
                     String value = input.getText().toString().trim();
                     if (value.isEmpty()) value = "0.00";
-                    // Keep max 2 decimal places
                     try {
                         double d = Double.parseDouble(value);
                         value = String.format("%.2f", d);
