@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -7,23 +8,59 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SRT60">
 
-        <!-- Splash Screen (Launcher) -->
+        <!-- Splash / Launcher -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.SRT60.Splash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <!-- Main screens -->
-        <activity android:name=".MainActivity" android:exported="false" />
-        <activity android:name=".HomeActivity" android:exported="false" />
-        <activity android:name=".BalanceActivity" android:exported="false" />
-        <activity android:name=".ProfileActivity" android:exported="false" />
-        <activity android:name=".HistoryActivity" android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".BalanceActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+
+        <!-- Send -->
+        <activity
+            android:name=".SendActivity"
+            android:exported="false" />
+
+        <!-- Transaction details -->
+        <activity
+            android:name=".TransactionDetailActivity"
+            android:exported="false" />
+
+        <!-- Pools -->
+        <activity
+            android:name=".PoolActivity"
+            android:exported="false" />
+
+        <!-- Pool members -->
+        <activity
+            android:name=".PoolMemberActivity"
+            android:exported="false" />
 
     </application>
 
