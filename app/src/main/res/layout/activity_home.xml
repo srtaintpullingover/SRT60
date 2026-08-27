@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000">
+
+    <!-- Top bar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_circle_dark"
+            android:gravity="center"
+            android:text="☺"
+            android:textSize="22sp"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_circle_dark"
+            android:gravity="center"
+            android:text="🔍"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/btnProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_circle_dark"
+            android:gravity="center"
+            android:text="👤"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <!-- Horizontal contacts -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:paddingVertical="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <LinearLayout
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginEnd="12dp">
+                <TextView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@drawable/bg_circle_dark"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textSize="28sp"
+                    android:textColor="#FFFFFF" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get $30"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="72dp" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="center" android:layout_marginEnd="12dp">
+                <TextView android:layout_width="56dp" android:layout_height="56dp"
+                    android:background="@drawable/bg_circle_green" android:gravity="center"
+                    android:text="A" android:textColor="#000" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Alexus" android:textColor="#FFF" android:textSize="11sp" android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="72dp" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="center" android:layout_marginEnd="12dp">
+                <TextView android:layout_width="56dp" android:layout_height="56dp"
+                    android:background="@drawable/bg_circle_green" android:gravity="center"
+                    android:text="K" android:textColor="#000" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="KoKo" android:textColor="#FFF" android:textSize="11sp" android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="72dp" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="center" android:layout_marginEnd="12dp">
+                <TextView android:layout_width="56dp" android:layout_height="56dp"
+                    android:background="@drawable/bg_circle_green" android:gravity="center"
+                    android:text="J" android:textColor="#000" android:textStyle="bold" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Jaiwain" android:textColor="#FFF" android:textSize="11sp" android:layout_marginTop="6dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This month"
+        android:textColor="#FFFFFF"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <!-- Savings / Cash balance row -->
+            <LinearLayout
+                android:id="@+id/rowCashBalance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="12dp">
+                <TextView
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_green"
+                    android:gravity="center"
+                    android:text="$"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="14dp">
+                    <TextView android:text="Savings" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:text="Cash balance\nYesterday" android:textColor="#AAAAAA" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:text="$5" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Alexus Sims $25 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="12dp">
+                <TextView android:layout_width="44dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_dark" android:gravity="center"
+                    android:text="A" android:textColor="#FFF" android:textStyle="bold" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
+                    <TextView android:text="Alexus Sims" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:text="srt\nYesterday" android:textColor="#AAAAAA" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:text="$25" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- KoKo $15 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="12dp">
+                <TextView android:layout_width="44dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_dark" android:gravity="center"
+                    android:text="K" android:textColor="#FFF" android:textStyle="bold" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
+                    <TextView android:text="KoKo" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:text="Savage\nYesterday" android:textColor="#AAAAAA" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:text="♡ $15" android:textColor="#FFF" android:textSize="15sp" />
+            </LinearLayout>
+
+            <!-- Jaiwain $10 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="12dp">
+                <TextView android:layout_width="44dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_dark" android:gravity="center"
+                    android:text="J" android:textColor="#FFF" android:textStyle="bold" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
+                    <TextView android:text="Jaiwain Small" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:text="srt|eb\nYesterday" android:textColor="#AAAAAA" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:text="$10" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Alexus $35 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="12dp">
+                <TextView android:layout_width="44dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_dark" android:gravity="center"
+                    android:text="A" android:textColor="#FFF" android:textStyle="bold" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
+                    <TextView android:text="Alexus Sims" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:text="srt|eb\nYesterday" android:textColor="#AAAAAA" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:text="$35" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Jaiwain $50 -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:gravity="center_vertical" android:paddingVertical="12dp">
+                <TextView android:layout_width="44dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_dark" android:gravity="center"
+                    android:text="J" android:textColor="#FFF" android:textStyle="bold" />
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="14dp">
+                    <TextView android:text="Jaiwain Small" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+                    <TextView android:text="srt\nYesterday" android:textColor="#AAAAAA" android:textSize="13sp" />
+                </LinearLayout>
+                <TextView android:text="$50" android:textColor="#FFF" android:textSize="16sp" android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include layout="@layout/bottom_nav" />
+</LinearLayout>
