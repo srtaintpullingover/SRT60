@@ -18,51 +18,58 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Find the amount display text view dynamically
         txtAmount = findTextViewRecursive(getWindow().getDecorView());
 
-        // Universal listener for keypad and action buttons
-        View.OnClickListener keypadListener = new View.OnClickListener() {
+        View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String buttonText = "";
                 if (v instanceof Button) {
-                    Button b = (Button) v;
-                    String val = b.getText().toString();
+                    buttonText = ((Button) v).getText().toString();
+                } else if (v instanceof TextView) {
+                    buttonText = ((TextView) v).getText().toString();
+                }
 
-                    if (val.equalsIgnoreCase("PAY") || val.equalsIgnoreCase("POOL") || val.equalsIgnoreCase("REQUEST")) {
-                        // Handle action buttons here if needed
-                        return;
-                    }
+                // Handle Bottom Action Buttons (PAY, POOL, REQUEST)
+                if (buttonText.equalsIgnoreCase("PAY") || 
+                    buttonText.equalsIgnoreCase("POOL") || 
+                    buttonText.equalsIgnoreCase("REQUEST")) {
+                    
+                    // Launch History or Balance screen when action buttons are pressed
+                    Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                    intent.putExtra("ACTION_TYPE", buttonText);
+                    intent.putExtra("AMOUNT", currentAmount.toString());
+                    startActivity(intent);
+                    return;
+                }
 
-                    if (val.equals("<") || val.equals("DEL")) {
-                        if (currentAmount.length() > 1) {
-                            currentAmount.deleteCharAt(currentAmount.length() - 1);
-                        } else {
-                            currentAmount.setLength(0);
-                            currentAmount.append("0");
-                        }
+                // Handle Keypad Input
+                if (buttonText.equals("<") || buttonText.equals("DEL")) {
+                    if (currentAmount.length() > 1) {
+                        currentAmount.deleteCharAt(currentAmount.length() - 1);
                     } else {
-                        if (currentAmount.toString().equals("0") && !val.equals(".")) {
-                            currentAmount.setLength(0);
-                        }
-                        currentAmount.append(val);
+                        currentAmount.setLength(0);
+                        currentAmount.append("0");
                     }
+                } else if (!buttonText.isEmpty() && (Character.isDigit(buttonText.charAt(0)) || buttonText.equals("."))) {
+                    if (currentAmount.toString().equals("0") && !buttonText.equals(".")) {
+                        currentAmount.setLength(0);
+                    }
+                    currentAmount.append(buttonText);
+                }
 
-                    if (txtAmount != null) {
-                        txtAmount.setText("$" + currentAmount.toString());
-                    }
+                if (txtAmount != null) {
+                    txtAmount.setText("$" + currentAmount.toString());
                 }
             }
         };
 
-        setupButtonListenersRecursive(getWindow().getDecorView(), keypadListener);
-
-        // Handle top navigation icons/buttons if present
-        setupNavigationIcons();
+        // Recursively attach listeners to all interactive elements, including top bar icons and bottom buttons
+        attachListenersRecursive(getWindow().getDecorView(), clickListener);
     }
 
     private TextView findTextViewRecursive(View view) {
-        if (view instanceof TextView) {
+        if (view instanceof TextView && !(view instanceof Button)) {
             String text = ((TextView) view).getText().toString();
             if (text.contains("$") || text.equals("0")) {
                 return (TextView) view;
@@ -78,43 +85,16 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private void setupButtonListenersRecursive(View view, View.OnClickListener listener) {
-        if (view instanceof Button) {
+    private void attachListenersRecursive(View view, View.OnClickListener listener) {
+        if (view instanceof Button || view.hasOnClickListeners() || view.getTag() != null || view.getId() != View.NO_ID) {
+            // Make any clickable or layout-identified element responsive
             view.setOnClickListener(listener);
-        } else if (view instanceof ViewGroup) {
+        }
+        
+        if (view instanceof ViewGroup) {
             ViewGroup group = (ViewGroup) view;
             for (int i = 0; i < group.getChildCount(); i++) {
-                setupButtonListenersRecursive(group.getChildAt(i), listener);
-            }
-        }
-    }
-
-    private void setupNavigationIcons() {
-        // Automatically hook up top navigation elements to switch views or check balance/history
-        int[] possibleNavIds = {
-            getResources().getIdentifier("navHome", "id", getPackageName()),
-            getResources().getIdentifier("navHistory", "id", getPackageName()),
-            getResources().getIdentifier("histNavHome", "id", getPackageName()),
-            getResources().getIdentifier("homeNavHome", "id", getPackageName())
-        };
-
-        for (int id : possibleNavIds) {
-            if (id != 0) {
-                View navView = findViewById(id);
-                if (navView != null) {
-                    navView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Open History or Home Activity when top nav icons are tapped
-                            try {
-                                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-                                startActivity(intent);
-                            } catch (Exception e) {
-                                // Fallback if activity isn't registered yet
-                            }
-                        }
-                    });
-                }
+                attachListenersRecursive(group.getChildAt(i), listener);
             }
         }
     }
