@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.srt60"
+    namespace = "com.srt60"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.srt60"
+        applicationId = "com.srt60"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
