@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#000000">
+    android:background="#0D0D0D">
 
+    <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -19,7 +19,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="&#215;"
-            android:textSize="30sp"
+            android:textSize="32sp"
             android:textColor="#FFFFFF" />
 
         <TextView
@@ -28,17 +28,18 @@
             android:layout_centerInParent="true"
             android:text="Send"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
+    <!-- Search Section -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Who are you paying?"
         android:textColor="#FFFFFF"
-        android:textSize="25sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:paddingHorizontal="20dp"
         android:paddingTop="10dp"
@@ -47,22 +48,23 @@
     <EditText
         android:id="@+id/txtSearch"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="56dp"
         android:layout_marginHorizontal="16dp"
-        android:background="@drawable/bg_search"
+        android:background="@drawable/bg_input_dark"
         android:hint="Search name, $cashtag or phone"
         android:textColor="#FFFFFF"
         android:textColorHint="#888888"
         android:singleLine="true"
         android:paddingHorizontal="18dp"
-        android:textSize="15sp" />
+        android:textSize="16sp" />
 
+    <!-- Selected Contact Card -->
     <LinearLayout
         android:id="@+id/selectedContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:padding="14dp"
+        android:padding="16dp"
         android:background="@drawable/bg_card_dark"
         android:orientation="horizontal"
         android:visibility="gone">
@@ -77,6 +79,7 @@
 
     </LinearLayout>
 
+    <!-- Contact List -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -92,40 +95,46 @@
 
     </ScrollView>
 
+    <!-- Amount Input (Prominent Center) -->
     <EditText
         android:id="@+id/txtAmount"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="80dp"
         android:layout_marginHorizontal="16dp"
         android:hint="$0.00"
         android:textColor="#FFFFFF"
-        android:textColorHint="#777777"
-        android:textSize="30sp"
+        android:textColorHint="#555555"
+        android:textSize="42sp"
+        android:textStyle="bold"
         android:inputType="numberDecimal"
         android:gravity="center"
         android:singleLine="true" />
 
+    <!-- Note Input -->
     <EditText
         android:id="@+id/txtNote"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="52dp"
         android:layout_marginHorizontal="16dp"
-        android:hint="For what?"
+        android:hint="What's it for?"
         android:textColor="#FFFFFF"
         android:textColorHint="#777777"
         android:singleLine="true"
         android:paddingHorizontal="16dp" />
 
+    <!-- Send Button (Cash App Green & Rounded) -->
     <Button
         android:id="@+id/btnSendMoney"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="60dp"
         android:layout_margin="16dp"
         android:text="Send"
         android:textAllCaps="false"
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:backgroundTint="#00D632" />
+        android:background="@drawable/bg_button_green"
+        android:backgroundTint="@null"
+        android:elevation="4dp" />
 
 </LinearLayout>
