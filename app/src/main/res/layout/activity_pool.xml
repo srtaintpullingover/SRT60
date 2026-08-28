@@ -17,7 +17,7 @@
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="‹"
+            android:text="&#8249;"
             android:textColor="#FFFFFF"
             android:textSize="34sp" />
 
