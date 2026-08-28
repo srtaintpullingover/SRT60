@@ -18,7 +18,7 @@
             android:layout_height="44dp"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="×"
+            android:text="&#215;"
             android:textSize="30sp"
             android:textColor="#FFFFFF" />
 
@@ -51,7 +51,6 @@
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/bg_search"
         android:hint="Search name, $cashtag or phone"
-        android:hintTextColor="#888888"
         android:textColor="#FFFFFF"
         android:textColorHint="#888888"
         android:singleLine="true"
@@ -99,8 +98,8 @@
         android:layout_height="64dp"
         android:layout_marginHorizontal="16dp"
         android:hint="$0.00"
-        android:hintTextColor="#777777"
         android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
         android:textSize="30sp"
         android:inputType="numberDecimal"
         android:gravity="center"
@@ -112,8 +111,8 @@
         android:layout_height="50dp"
         android:layout_marginHorizontal="16dp"
         android:hint="For what?"
-        android:hintTextColor="#777777"
         android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
         android:singleLine="true"
         android:paddingHorizontal="16dp" />
 
