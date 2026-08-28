@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -60,76 +59,56 @@
         android:layout_marginTop="34dp"
         android:layout_marginBottom="20dp" />
 
-    <GridLayout
+    <!-- Fixed Keypad: Using LinearLayout with weights instead of GridLayout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:columnCount="3"
-        android:rowCount="4"
+        android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
-        <Button
-            android:id="@+id/btn1"
-            style="@style/KeypadButton"
-            android:text="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button android:id="@+id/btn1" style="@style/KeypadButton" android:text="1" />
+            <Button android:id="@+id/btn2" style="@style/KeypadButton" android:text="2" />
+            <Button android:id="@+id/btn3" style="@style/KeypadButton" android:text="3" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn2"
-            style="@style/KeypadButton"
-            android:text="2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button android:id="@+id/btn4" style="@style/KeypadButton" android:text="4" />
+            <Button android:id="@+id/btn5" style="@style/KeypadButton" android:text="5" />
+            <Button android:id="@+id/btn6" style="@style/KeypadButton" android:text="6" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn3"
-            style="@style/KeypadButton"
-            android:text="3" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button android:id="@+id/btn7" style="@style/KeypadButton" android:text="7" />
+            <Button android:id="@+id/btn8" style="@style/KeypadButton" android:text="8" />
+            <Button android:id="@+id/btn9" style="@style/KeypadButton" android:text="9" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn4"
-            style="@style/KeypadButton"
-            android:text="4" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Button android:id="@+id/btnDot" style="@style/KeypadButton" android:text="." />
+            <Button android:id="@+id/btn0" style="@style/KeypadButton" android:text="0" />
+            <Button android:id="@+id/btnBack" style="@style/KeypadButton" android:text="&lt;" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn5"
-            style="@style/KeypadButton"
-            android:text="5" />
-
-        <Button
-            android:id="@+id/btn6"
-            style="@style/KeypadButton"
-            android:text="6" />
-
-        <Button
-            android:id="@+id/btn7"
-            style="@style/KeypadButton"
-            android:text="7" />
-
-        <Button
-            android:id="@+id/btn8"
-            style="@style/KeypadButton"
-            android:text="8" />
-
-        <Button
-            android:id="@+id/btn9"
-            style="@style/KeypadButton"
-            android:text="9" />
-
-        <Button
-            android:id="@+id/btnDot"
-            style="@style/KeypadButton"
-            android:text="." />
-
-        <Button
-            android:id="@+id/btn0"
-            style="@style/KeypadButton"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/btnBack"
-            style="@style/KeypadButton"
-            android:text="&lt;" />
-
-    </GridLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
