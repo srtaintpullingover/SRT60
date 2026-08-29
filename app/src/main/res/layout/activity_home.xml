@@ -3,23 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#000000"
-    android:padding="20dp">
+    android:background="#000000">
 
-    <!-- Top bar -->
+    <!-- Top Bar -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="40dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <TextView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/btnProfile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:text="S"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:gravity="center"
             android:background="#333333" />
@@ -30,74 +31,92 @@
             android:layout_weight="1" />
 
         <TextView
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🔍"
+            android:textSize="20sp"
+            android:layout_marginEnd="16dp" />
+
+        <TextView
+            android:id="@+id/btnAddMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="＋"
-            android:textSize="28sp"
+            android:textSize="26sp"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
-    <!-- Cash balance label -->
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Balance Section -->
+    <LinearLayout
+        android:id="@+id/rowCashBalance"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cash balance"
-        android:textColor="#AAAAAA"
-        android:textSize="14sp"
-        android:layout_gravity="center_horizontal" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="24dp"
+        android:paddingBottom="32dp">
 
-    <!-- Balance amount -->
-    <TextView
-        android:id="@+id/tvBalance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$5.00"
-        android:textColor="#FFFFFF"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash balance"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tap to edit"
-        android:textColor="#00D632"
-        android:textSize="14sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="40dp" />
+        <TextView
+            android:id="@+id/txtBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$5.00"
+            android:textColor="#FFFFFF"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp" />
 
-    <!-- Send + Pools buttons -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap to edit"
+            android:textColor="#00D632"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Send + Pools Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="40dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginBottom="28dp">
 
         <Button
             android:id="@+id/btnSend"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="52dp"
             android:layout_weight="1"
             android:text="Send"
             android:textColor="#000000"
             android:textStyle="bold"
+            android:textSize="16sp"
             android:backgroundTint="#00D632"
             android:layout_marginEnd="8dp" />
 
         <Button
-            android:id="@+id/btnPools"
+            android:id="@+id/btnPool"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="52dp"
             android:layout_weight="1"
             android:text="Pools"
             android:textColor="#FFFFFF"
+            android:textSize="16sp"
             android:backgroundTint="#333333"
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <!-- Activity section -->
+    <!-- Activity Header -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -105,13 +124,62 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:paddingStart="16dp"
+        android:layout_marginBottom="12dp" />
 
-    <TextView
+    <!-- Transaction List -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No transactions yet"
-        android:textColor="#666666"
-        android:textSize="15sp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <LinearLayout
+            android:id="@+id/transactionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="#111111"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="🏠"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:textColor="#00D632" />
+
+        <TextView
+            android:id="@+id/navKeypad"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="$"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/navHistory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="🕒"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
 </LinearLayout>
