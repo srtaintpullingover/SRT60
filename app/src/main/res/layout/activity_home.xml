@@ -6,25 +6,13 @@
     android:background="#0a0a0f"
     android:padding="16dp">
 
-    <!-- Header with Profile Image -->
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
-
-        <!-- Profile Image (Circle - using background instead of circleCrop) -->
-        <ImageView
-            android:id="@+id/imgProfile"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/profile_image"
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/profile_image_bg"
-            android:clickable="true"
-            android:focusable="true" />
+        android:layout_marginBottom="24dp">
 
         <TextView
             android:layout_width="0dp"
@@ -36,7 +24,6 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtMenuIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="⋯"
@@ -44,12 +31,12 @@
             android:textSize="24sp" />
     </LinearLayout>
 
-    <!-- Balance Section -->
+    <!-- Balance -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="28dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,13 +44,14 @@
             android:text="Cash balance ••"
             android:textColor="#8888b8"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="bottom">
+            android:gravity="baseline">
 
             <TextView
                 android:id="@+id/txtBalance"
@@ -81,19 +69,19 @@
                 android:text="$8,300"
                 android:textColor="#8888b8"
                 android:textSize="18sp"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginStart="8dp" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Action Buttons Grid -->
+    <!-- Action Buttons -->
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:layout_marginBottom="20dp">
+        android:columnCount="4"
+        android:rowCount="1"
+        android:layout_marginBottom="28dp">
 
+        <!-- Add money -->
         <LinearLayout
             android:id="@+id/btnAddMoney"
             android:layout_width="0dp"
@@ -101,25 +89,26 @@
             android:layout_columnWeight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="16dp"
-            android:background="@drawable/action_button_bg"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp">
+            android:padding="14dp"
+            android:background="#1a1a3e"
+            android:layout_marginEnd="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="➕"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add money"
                 android:textColor="#818cf8"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Withdraw -->
         <LinearLayout
             android:id="@+id/btnWithdraw"
             android:layout_width="0dp"
@@ -127,24 +116,26 @@
             android:layout_columnWeight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="16dp"
-            android:background="@drawable/action_button_bg"
-            android:layout_marginBottom="8dp">
+            android:padding="14dp"
+            android:background="#0f0f1f"
+            android:layout_marginEnd="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="💳"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Withdraw"
                 android:textColor="#b8b8d8"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Cash App given -->
         <LinearLayout
             android:id="@+id/btnCashApp"
             android:layout_width="0dp"
@@ -152,24 +143,26 @@
             android:layout_columnWeight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="16dp"
-            android:background="@drawable/action_button_bg"
+            android:padding="14dp"
+            android:background="#0f0f1f"
             android:layout_marginEnd="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="📱"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cash App Green"
-                android:textColor="#00D632"
-                android:textSize="12sp"
+                android:text="Cash App given"
+                android:textColor="#b8b8d8"
+                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <!-- Earn status -->
         <LinearLayout
             android:id="@+id/btnEarnStatus"
             android:layout_width="0dp"
@@ -177,39 +170,48 @@
             android:layout_columnWeight="1"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="16dp"
-            android:background="@drawable/action_button_bg">
+            android:padding="14dp"
+            android:background="#0f0f1f">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🏆"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Earn status"
                 android:textColor="#b8b8d8"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </GridLayout>
 
-    <!-- Savings Section -->
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#141428"
+        android:layout_marginBottom="20dp" />
+
+    <!-- Savings -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:background="@drawable/savings_bg"
-        android:layout_marginBottom="12dp">
+        android:background="#0a0a1a"
+        android:layout_marginBottom="16dp">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -217,6 +219,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -233,100 +236,6 @@
             android:textColor="#6b8c5c"
             android:textSize="20sp"
             android:textStyle="bold" />
-    </LinearLayout>
-
-    <!-- More for you -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="More for you"
-        android:textColor="#8888b8"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
-
-    <!-- Cash App Mobile Promo -->
-    <LinearLayout
-        android:id="@+id/rowCashAppMobile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="12dp"
-        android:background="@drawable/savings_bg"
-        android:layout_marginBottom="12dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cash App Mobile"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bring your numt ℹ️ $2 months interest"
-                android:textColor="#8888b8"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→"
-            android:textColor="#8888b8"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <!-- Transactions -->
-    <LinearLayout
-        android:id="@+id/transactionContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical" />
-
-    <!-- Bottom Navigation -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="12dp">
-
-        <TextView
-            android:id="@+id/navHome"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="🏠"
-            android:textSize="24sp"
-            android:textColor="#818cf8" />
-
-        <TextView
-            android:id="@+id/navKeypad"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="🔢"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/navHistory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="📜"
-            android:textSize="24sp" />
     </LinearLayout>
 
 </LinearLayout>
