@@ -17,7 +17,7 @@
         android:id="@+id/btnProfile"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:src="@drawable/1786770625388"
+        android:src="@drawable/profile_image.png"
         android:scaleType="centerCrop"
         android:background="#333333" />
 
