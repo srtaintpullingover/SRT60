@@ -88,7 +88,7 @@ public final class AppData {
         return Double.longBitsToDouble(
                 prefs(context).getLong(
                         KEY_BALANCE,
-                        Double.doubleToLongBits(5.00)
+                        Double.doubleToLongBits(8300)
                 )
         );
     }
