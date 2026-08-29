@@ -16,12 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
-            android:paddingTop="22dp"
-            android:paddingBottom="20dp">
+            android:padding="22dp">
 
-            <!-- Profile row -->
+            <!-- TOP PROFILE BAR -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
@@ -29,12 +26,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:id="@+id/btnProfile"
+                    android:layout_width="58dp"
+                    android:layout_height="58dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/profile_image"
-                    android:contentDescription="Profile picture" />
+                    android:contentDescription="Profile" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -44,180 +41,181 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txtName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Diego Diego Logan"
                         android:textColor="#FFFFFF"
-                        android:textSize="20sp"
+                        android:textSize="19sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txtCashtag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:text="$iranmoneyyy"
                         android:textColor="#00D632"
-                        android:textSize="17sp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/searchButton"
+                    android:id="@+id/btnSearch"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:gravity="center"
                     android:text="⌕"
                     android:textColor="#FFFFFF"
-                    android:textSize="34sp" />
+                    android:textSize="32sp"
+                    android:clickable="true"
+                    android:focusable="true" />
 
                 <TextView
-                    android:id="@+id/addButton"
+                    android:id="@+id/btnAddMoney"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:gravity="center"
                     android:text="+"
                     android:textColor="#FFFFFF"
-                    android:textSize="38sp" />
+                    android:textSize="34sp"
+                    android:clickable="true"
+                    android:focusable="true" />
 
             </LinearLayout>
 
-            <!-- Balance -->
+            <!-- BALANCE CARD -->
             <LinearLayout
+                android:id="@+id/rowCashBalance"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_height="230dp"
+                android:layout_marginTop="34dp"
+                android:background="#151515"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:clickable="true"
+                android:focusable="true">
 
                 <TextView
-                    android:id="@+id/balanceLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cash balance"
-                    android:textColor="#9E9E9E"
-                    android:textSize="18sp" />
+                    android:textColor="#999999"
+                    android:textSize="17sp" />
 
                 <TextView
                     android:id="@+id/txtBalance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
+                    android:layout_marginTop="10dp"
                     android:text="$8,300.00"
                     android:textColor="#FFFFFF"
-                    android:textSize="58sp"
+                    android:textSize="52sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/editBalance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Tap to edit"
-                    android:textColor="#00D632"
-                    android:textSize="18sp" />
 
             </LinearLayout>
 
-            <!-- Main buttons -->
+            <!-- ACTION BUTTONS -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="58dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="22dp"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/sendButton"
+                    android:id="@+id/btnSend"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="SEND"
+                    android:textAllCaps="false"
                     android:textColor="#000000"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textAllCaps="false"
                     android:background="@drawable/bg_send_green" />
 
                 <Space
-                    android:layout_width="16dp"
+                    android:layout_width="14dp"
                     android:layout_height="1dp" />
 
                 <Button
-                    android:id="@+id/poolsButton"
+                    android:id="@+id/btnPool"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="POOLS"
+                    android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:textAllCaps="false"
                     android:background="@drawable/bg_pool_dark" />
 
             </LinearLayout>
 
-            <!-- Activity -->
+            <!-- ACTIVITY HEADER -->
             <TextView
-                android:id="@+id/activityTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
+                android:layout_marginTop="42dp"
                 android:text="Activity"
                 android:textColor="#FFFFFF"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/noTransactions"
-                android:layout_width="wrap_content"
+            <!-- TRANSACTION LIST -->
+            <LinearLayout
+                android:id="@+id/transactionContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
-                android:text="No transactions yet"
-                android:textColor="#777777"
-                android:textSize="20sp" />
+                android:layout_marginTop="12dp"
+                android:orientation="vertical" />
 
         </LinearLayout>
 
     </ScrollView>
 
-    <!-- Bottom navigation -->
+    <!-- BOTTOM NAVIGATION -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="82dp"
         android:background="#151515"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/homeNav"
+            android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="⌂"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp" />
+            android:textColor="#00D632"
+            android:textSize="30sp"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
-            android:id="@+id/payNav"
+            android:id="@+id/navKeypad"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="$"
             android:textColor="#FFFFFF"
-            android:textSize="34sp" />
+            android:textSize="30sp"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
-            android:id="@+id/historyNav"
+            android:id="@+id/navHistory"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="◷"
             android:textColor="#FFFFFF"
-            android:textSize="34sp" />
+            android:textSize="30sp"
+            android:clickable="true"
+            android:focusable="true" />
 
     </LinearLayout>
 
