@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etPoolName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Pool Name"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#8888b8"
+        android:background="@drawable/input_bg"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etPoolDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description (optional)"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#8888b8"
+        android:background="@drawable/input_bg"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etPoolAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Amount"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#8888b8"
+        android:background="@drawable/input_bg"
+        android:padding="12dp"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>
