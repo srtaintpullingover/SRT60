@@ -24,6 +24,8 @@ public class AppData {
         public String username;
         public String note;
         public boolean isIncoming;
+        public String phone;
+        public String initials;
 
         public Transaction() {
             this.id = System.currentTimeMillis();
@@ -37,6 +39,17 @@ public class AppData {
             this.type = type;
             this.timestamp = System.currentTimeMillis();
         }
+
+        // Constructor for SendActivity
+        public Transaction(String name, String username, String phone, double amount, String type) {
+            this.id = System.currentTimeMillis();
+            this.person = name;
+            this.username = username;
+            this.phone = phone;
+            this.amount = amount;
+            this.type = type;
+            this.timestamp = System.currentTimeMillis();
+        }
     }
 
     // ========== CONTACT CLASS ==========
@@ -44,13 +57,36 @@ public class AppData {
         public String name;
         public String username;
         public String avatar;
+        public String phone;
+        public String initials;
         public boolean isSelected;
 
         public Contact(String name, String username, String avatar) {
             this.name = name;
             this.username = username;
             this.avatar = avatar;
+            this.phone = "";
+            this.initials = getInitials(name);
             this.isSelected = false;
+        }
+
+        public Contact(String name, String username, String avatar, String phone) {
+            this.name = name;
+            this.username = username;
+            this.avatar = avatar;
+            this.phone = phone;
+            this.initials = getInitials(name);
+            this.isSelected = false;
+        }
+
+        private String getInitials(String name) {
+            if (name == null || name.trim().isEmpty()) return "?";
+            String[] pieces = name.trim().split("\\s+");
+            if (pieces.length == 1) {
+                return pieces[0].substring(0, 1).toUpperCase(Locale.US);
+            }
+            return (pieces[0].substring(0, 1) + pieces[pieces.length - 1].substring(0, 1))
+                    .toUpperCase(Locale.US);
         }
     }
 
@@ -58,7 +94,10 @@ public class AppData {
     public static class Pool {
         public String id;
         public String name;
+        public String description;
         public double amount;
+        public double balance;
+        public double goal;
         public String creator;
         public long timestamp;
         public List<String> members;
@@ -69,12 +108,32 @@ public class AppData {
             this.timestamp = System.currentTimeMillis();
             this.members = new ArrayList<>();
             this.isActive = true;
+            this.balance = 0;
+            this.goal = 0;
+            this.description = "";
         }
 
         public Pool(String name, double amount, String creator) {
             this.id = String.valueOf(System.currentTimeMillis());
             this.name = name;
             this.amount = amount;
+            this.balance = amount;
+            this.goal = amount * 2;
+            this.creator = creator;
+            this.timestamp = System.currentTimeMillis();
+            this.members = new ArrayList<>();
+            this.members.add(creator);
+            this.isActive = true;
+            this.description = "Pool for " + name;
+        }
+
+        public Pool(String name, String description, double amount, String creator) {
+            this.id = String.valueOf(System.currentTimeMillis());
+            this.name = name;
+            this.description = description;
+            this.amount = amount;
+            this.balance = amount;
+            this.goal = amount * 2;
             this.creator = creator;
             this.timestamp = System.currentTimeMillis();
             this.members = new ArrayList<>();
@@ -110,7 +169,6 @@ public class AppData {
 
     // ========== TRANSACTION METHODS ==========
     public static ArrayList<Transaction> getTransactions(Context context) {
-        // For demo, return some sample transactions
         ArrayList<Transaction> transactions = new ArrayList<>();
         
         // Sample transactions
@@ -119,9 +177,10 @@ public class AppData {
         t1.person = "River Lee";
         t1.amount = 20;
         t1.type = "PAY";
-        t1.timestamp = System.currentTimeMillis() - 86400000; // Yesterday
+        t1.timestamp = System.currentTimeMillis() - 86400000;
         t1.username = "@river";
         t1.note = "Snack Wagon 🥣";
+        t1.initials = "RL";
         transactions.add(t1);
 
         Transaction t2 = new Transaction();
@@ -129,8 +188,9 @@ public class AppData {
         t2.person = "Alyssa Smith";
         t2.amount = 15;
         t2.type = "REQUEST";
-        t2.timestamp = System.currentTimeMillis() - 172800000; // 2 days ago
+        t2.timestamp = System.currentTimeMillis() - 172800000;
         t2.username = "@alyssa";
+        t2.initials = "AS";
         transactions.add(t2);
 
         Transaction t3 = new Transaction();
@@ -138,8 +198,9 @@ public class AppData {
         t3.person = "Snack Wagon";
         t3.amount = 20;
         t3.type = "PAY";
-        t3.timestamp = System.currentTimeMillis() - 259200000; // 3 days ago
+        t3.timestamp = System.currentTimeMillis() - 259200000;
         t3.note = "🥣 Lunch";
+        t3.initials = "SW";
         transactions.add(t3);
 
         return transactions;
@@ -148,7 +209,6 @@ public class AppData {
     public static void addTransaction(Context context, Transaction transaction) {
         ArrayList<Transaction> transactions = getTransactions(context);
         transactions.add(transaction);
-        // In a real app, save to SharedPreferences or SQLite
         saveTransactions(context, transactions);
     }
 
@@ -163,24 +223,21 @@ public class AppData {
     }
 
     private static void saveTransactions(Context context, ArrayList<Transaction> transactions) {
-        // For demo, we'll just store in SharedPreferences as a string
-        // In a real app, use Gson or SQLite
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        // Simple save - just store count
         prefs.edit().putInt("transaction_count", transactions.size()).apply();
     }
 
     // ========== CONTACT METHODS ==========
     public static List<Contact> getContacts() {
         List<Contact> contacts = new ArrayList<>();
-        contacts.add(new Contact("Alexander", "@alex", "A"));
-        contacts.add(new Contact("River Lee", "@river", "R"));
-        contacts.add(new Contact("Alyssa Smith", "@alyssa", "A"));
-        contacts.add(new Contact("KoKo", "@koko", "K"));
-        contacts.add(new Contact("Sava", "@sava", "S"));
-        contacts.add(new Contact("Snack Wagon", "@snackwagon", "S"));
-        contacts.add(new Contact("Sarah Johnson", "@sarahj", "S"));
-        contacts.add(new Contact("Mike Chen", "@mikec", "M"));
+        contacts.add(new Contact("Alexander", "@alex", "A", "+1 555-0101"));
+        contacts.add(new Contact("River Lee", "@river", "R", "+1 555-0102"));
+        contacts.add(new Contact("Alyssa Smith", "@alyssa", "A", "+1 555-0103"));
+        contacts.add(new Contact("KoKo", "@koko", "K", "+1 555-0104"));
+        contacts.add(new Contact("Sava", "@sava", "S", "+1 555-0105"));
+        contacts.add(new Contact("Snack Wagon", "@snackwagon", "S", "+1 555-0106"));
+        contacts.add(new Contact("Sarah Johnson", "@sarahj", "S", "+1 555-0107"));
+        contacts.add(new Contact("Mike Chen", "@mikec", "M", "+1 555-0108"));
         return contacts;
     }
 
@@ -198,15 +255,18 @@ public class AppData {
     public static ArrayList<Pool> getPools(Context context) {
         ArrayList<Pool> pools = new ArrayList<>();
         
-        // Sample pools
-        Pool p1 = new Pool("Dinner Group", 50, "@river");
+        Pool p1 = new Pool("Dinner Group", "Weekly dinner with friends", 50, "@river");
         p1.members.add("@alex");
         p1.members.add("@alyssa");
+        p1.balance = 150;
+        p1.goal = 200;
         pools.add(p1);
 
-        Pool p2 = new Pool("Weekend Trip", 100, "@alex");
+        Pool p2 = new Pool("Weekend Trip", "Beach trip this weekend", 100, "@alex");
         p2.members.add("@sarahj");
         p2.members.add("@mikec");
+        p2.balance = 200;
+        p2.goal = 400;
         pools.add(p2);
 
         return pools;
@@ -228,6 +288,17 @@ public class AppData {
         savePools(context, pools);
     }
 
+    public static void savePool(Context context, Pool pool) {
+        ArrayList<Pool> pools = getPools(context);
+        for (int i = 0; i < pools.size(); i++) {
+            if (pools.get(i).id.equals(pool.id)) {
+                pools.set(i, pool);
+                break;
+            }
+        }
+        savePools(context, pools);
+    }
+
     public static void addMemberToPool(Context context, String poolId, String member) {
         ArrayList<Pool> pools = getPools(context);
         for (Pool pool : pools) {
@@ -242,7 +313,6 @@ public class AppData {
     }
 
     private static void savePools(Context context, ArrayList<Pool> pools) {
-        // In a real app, save to SharedPreferences or SQLite
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         prefs.edit().putInt("pool_count", pools.size()).apply();
     }
