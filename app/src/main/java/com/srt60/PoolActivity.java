@@ -2,7 +2,6 @@ package com.srt60;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +13,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class PoolActivity extends AppCompatActivity {
 
@@ -88,7 +86,8 @@ public class PoolActivity extends AppCompatActivity {
         TextView members = row.findViewById(R.id.poolMembers);
 
         name.setText(pool.name);
-        description.setText(pool.description != null ? pool.description : "No description");
+        description.setText(pool.description != null && !pool.description.isEmpty() ? 
+            pool.description : "No description");
         amount.setText(AppData.formatMoney(pool.balance) + " / " + AppData.formatMoney(pool.goal));
         members.setText(pool.members.size() + " members");
 
@@ -137,13 +136,8 @@ public class PoolActivity extends AppCompatActivity {
 
                         String currentUser = AppData.getUsername(this);
                         
-                        // FIXED: Use the correct constructor
-                        // Option A: Use name as description
-                        AppData.Pool pool = new AppData.Pool(name, amount, currentUser);
-                        
-                        // Option B: If you want to use description, use this:
-                        // AppData.Pool pool = new AppData.Pool(name, description.isEmpty() ? name : description, amount, currentUser);
-                        
+                        // Create pool with name, description, amount, creator
+                        AppData.Pool pool = new AppData.Pool(name, description, amount, currentUser);
                         AppData.createPool(this, pool);
                         
                         Toast.makeText(this, "Pool created successfully!", Toast.LENGTH_SHORT).show();
