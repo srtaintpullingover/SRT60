@@ -2,6 +2,7 @@ package com.srt60;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -17,204 +18,141 @@ import java.util.Locale;
 
 public class PoolActivity extends AppCompatActivity {
 
-    private LinearLayout poolList;
+    private LinearLayout poolContainer;
+    private double poolAmount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_pool);
 
-        poolList = findViewById(R.id.poolList);
+        poolContainer = findViewById(R.id.poolContainer);
+        
+        // Get amount from intent
+        poolAmount = getIntent().getDoubleExtra("AMOUNT", 0);
 
-        findViewById(R.id.btnClose)
-                .setOnClickListener(v -> finish());
-
-        findViewById(R.id.btnCreatePool)
-                .setOnClickListener(v -> createPool());
-
-        refreshPools();
+        setupButtons();
+        loadPools();
     }
 
-    private void refreshPools() {
+    private void setupButtons() {
+        findViewById(R.id.btnCreatePool).setOnClickListener(v -> createPoolDialog());
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        
+        findViewById(R.id.navHome).setOnClickListener(v -> {
+            Intent intent = new Intent(PoolActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        });
 
-        poolList.removeAllViews();
+        findViewById(R.id.navKeypad).setOnClickListener(v -> {
+            Intent intent = new Intent(PoolActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        });
 
-        ArrayList<AppData.Pool> pools =
-                AppData.getPools(this);
+        findViewById(R.id.navHistory).setOnClickListener(v -> 
+            startActivity(new Intent(PoolActivity.this, HistoryActivity.class))
+        );
+    }
+
+    private void loadPools() {
+        poolContainer.removeAllViews();
+        ArrayList<AppData.Pool> pools = AppData.getPools(this);
 
         if (pools.isEmpty()) {
-
             TextView empty = new TextView(this);
-
-            empty.setText(
-                    "No pools yet.\nCreate one to start collecting."
-            );
-
+            empty.setText("No pools yet.\nCreate one by tapping the + button");
             empty.setTextColor(0xFF888888);
             empty.setTextSize(16);
-            empty.setGravity(17);
-            empty.setPadding(20, 60, 20, 60);
-
-            poolList.addView(empty);
-
+            empty.setGravity(View.TEXT_ALIGNMENT_CENTER);
+            empty.setPadding(0, 60, 0, 60);
+            poolContainer.addView(empty);
             return;
         }
 
         for (AppData.Pool pool : pools) {
-
-            View row = LayoutInflater.from(this)
-                    .inflate(
-                            R.layout.item_pool,
-                            poolList,
-                            false
-                    );
-
-            TextView name =
-                    row.findViewById(R.id.txtPoolName);
-
-            TextView description =
-                    row.findViewById(R.id.txtPoolDescription);
-
-            TextView balance =
-                    row.findViewById(R.id.txtPoolBalance);
-
-            TextView members =
-                    row.findViewById(R.id.txtPoolMembers);
-
-            name.setText(pool.name);
-            description.setText(pool.description);
-
-            balance.setText(
-                    String.format(
-                            Locale.US,
-                            "$%.2f / $%.2f",
-                            pool.balance,
-                            pool.goal
-                    )
-            );
-
-            members.setText(
-                    pool.members.size() +
-                            " member" +
-                            (pool.members.size() == 1
-                                    ? ""
-                                    : "s")
-            );
-
-            row.setOnClickListener(v -> {
-
-                Intent intent =
-                        new Intent(
-                                this,
-                                PoolMemberActivity.class
-                        );
-
-                intent.putExtra(
-                        "POOL_ID",
-                        pool.id
-                );
-
-                startActivity(intent);
-            });
-
-            poolList.addView(row);
+            addPoolRow(pool);
         }
     }
 
-    private void createPool() {
+    private void addPoolRow(AppData.Pool pool) {
+        View row = LayoutInflater.from(this)
+                .inflate(R.layout.item_pool, poolContainer, false);
 
-        LinearLayout form = new LinearLayout(this);
+        TextView name = row.findViewById(R.id.poolName);
+        TextView description = row.findViewById(R.id.poolDescription);
+        TextView amount = row.findViewById(R.id.poolAmount);
+        TextView members = row.findViewById(R.id.poolMembers);
 
-        form.setOrientation(
-                LinearLayout.VERTICAL
-        );
+        name.setText(pool.name);
+        description.setText(pool.description != null ? pool.description : "No description");
+        amount.setText(AppData.formatMoney(pool.balance) + " / " + AppData.formatMoney(pool.goal));
+        members.setText(pool.members.size() + " members");
 
-        form.setPadding(30, 10, 30, 0);
+        row.setOnClickListener(v -> {
+            Intent intent = new Intent(PoolActivity.this, PoolMemberActivity.class);
+            intent.putExtra("POOL_ID", pool.id);
+            startActivity(intent);
+        });
 
-        EditText name = new EditText(this);
-        name.setHint("Pool name");
+        poolContainer.addView(row);
+    }
 
-        EditText description = new EditText(this);
-        description.setHint("Description");
+    private void createPoolDialog() {
+        View dialogView = LayoutInflater.from(this)
+                .inflate(R.layout.dialog_create_pool, null);
 
-        EditText goal = new EditText(this);
-        goal.setHint("Goal amount");
-        goal.setInputType(2 | 8192);
+        EditText poolName = dialogView.findViewById(R.id.etPoolName);
+        EditText poolDescription = dialogView.findViewById(R.id.etPoolDescription);
+        EditText poolAmountInput = dialogView.findViewById(R.id.etPoolAmount);
 
-        form.addView(name);
-        form.addView(description);
-        form.addView(goal);
+        if (poolAmount > 0) {
+            poolAmountInput.setText(String.valueOf((int) poolAmount));
+            poolAmountInput.setEnabled(false);
+        }
 
         new AlertDialog.Builder(this)
-                .setTitle("Create pool")
-                .setView(form)
+                .setTitle("Create New Pool")
+                .setView(dialogView)
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton(
-                        "Create",
-                        (dialog, which) -> {
+                .setPositiveButton("Create", (dialog, which) -> {
+                    String name = poolName.getText().toString().trim();
+                    String description = poolDescription.getText().toString().trim();
+                    String amountStr = poolAmountInput.getText().toString().trim();
 
-                            try {
+                    if (name.isEmpty() || amountStr.isEmpty()) {
+                        Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                                String poolName =
-                                        name.getText()
-                                                .toString()
-                                                .trim();
-
-                                String poolDescription =
-                                        description.getText()
-                                                .toString()
-                                                .trim();
-
-                                double goalAmount =
-                                        Double.parseDouble(
-                                                goal.getText()
-                                                        .toString()
-                                                        .trim()
-                                        );
-
-                                if (poolName.isEmpty()
-                                        || goalAmount <= 0) {
-                                    throw new Exception();
-                                }
-
-                                AppData.Pool pool =
-                                        new AppData.Pool(
-                                                poolName,
-                                                poolDescription,
-                                                goalAmount
-                                        );
-
-                                pool.members.add(
-                                        "You"
-                                );
-
-                                AppData.savePool(
-                                        this,
-                                        pool
-                                );
-
-                                refreshPools();
-
-                            } catch (Exception e) {
-
-                                Toast.makeText(
-                                        this,
-                                        "Enter a pool name and valid goal",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            }
+                    try {
+                        double amount = Double.parseDouble(amountStr);
+                        if (amount <= 0) {
+                            Toast.makeText(this, "Amount must be greater than 0", Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                )
+
+                        String currentUser = AppData.getUsername(this);
+                        
+                        // FIXED: Use the correct constructor
+                        // Option A: Use name as description
+                        AppData.Pool pool = new AppData.Pool(name, amount, currentUser);
+                        
+                        // Option B: If you want to use description, use this:
+                        // AppData.Pool pool = new AppData.Pool(name, description.isEmpty() ? name : description, amount, currentUser);
+                        
+                        AppData.createPool(this, pool);
+                        
+                        Toast.makeText(this, "Pool created successfully!", Toast.LENGTH_SHORT).show();
+                        loadPools();
+
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (poolList != null) {
-            refreshPools();
-        }
     }
 }
