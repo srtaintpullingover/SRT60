@@ -5,48 +5,62 @@
     android:orientation="vertical"
     android:background="#000000">
 
-    <!-- Top Bar -->
+<!-- Top Bar -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/btnProfile"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/profile"
+        android:scaleType="centerCrop"
+        android:background="#333333" />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
 
         <TextView
-            android:id="@+id/btnProfile"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:text="S"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diego Diego Logan"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:background="#333333" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🔍"
-            android:textSize="20sp"
-            android:layout_marginEnd="16dp" />
-
-        <TextView
-            android:id="@+id/btnAddMoney"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="＋"
-            android:textSize="26sp"
-            android:textColor="#FFFFFF" />
+            android:text="$iranmoneyyy"
+            android:textColor="#00D632"
+            android:textSize="13sp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔍"
+        android:textSize="20sp"
+        android:layout_marginEnd="16dp" />
+
+    <TextView
+        android:id="@+id/btnAddMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="＋"
+        android:textSize="26sp"
+        android:textColor="#FFFFFF" />
+</LinearLayout>
+    
     <!-- Balance Section -->
     <LinearLayout
         android:id="@+id/rowCashBalance"
